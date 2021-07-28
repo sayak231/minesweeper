@@ -4,7 +4,7 @@ export const revealed = (arr, x, y, newNonMines) => {
 
   let show = [];
   show.push(arr[x][y]);
-  while (show.length !== 0) {
+  while (show.length) {
     let one = show.pop();
     let i = one.x;
     let j = one.y;

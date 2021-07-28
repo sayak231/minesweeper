@@ -8,11 +8,6 @@ function Board() {
   const [nonMinecount, setNonMinecount] = useState(0);
   const [clickedMine, setClickedMine] = useState(false);
 
-  const style = {
-    display: "flex",
-    flexDirection: "row",
-  };
-
   const freshBoard = () => {
     setClickedMine(false);
     const newBoard = createBoard(10, 10, 20);
@@ -47,7 +42,7 @@ function Board() {
       <div className="cells-container">
         {grid.map((singlerow, index1) => {
           return (
-            <div style={style} key={index1}>
+            <div className="flex-row" key={index1}>
               {singlerow.map((singlecol, index2) => {
                 return (
                   <Cell
