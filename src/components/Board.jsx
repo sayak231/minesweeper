@@ -1,34 +1,37 @@
 import React, { useState, useEffect } from "react";
 import Cell from "./Cell.jsx";
-import CreateBoard from "../utils/CreateBoard.js";
+import createBoard from "../utils/CreateBoard.js";
 import { revealed } from "./../utils/revealed";
 
 function Board() {
   const [grid, setGrid] = useState([]);
   const [nonMinecount, setNonMinecount] = useState(0);
-  const [mineLocation, setmineLocation] = useState([]);
+  const [clickedMine, setClickedMine] = useState(false);
 
   const style = {
     display: "flex",
     flexDirection: "row",
   };
 
+  const freshBoard = () => {
+    setClickedMine(false);
+    const newBoard = createBoard(10, 10, 20);
+    setNonMinecount(10 * 10 - 20);
+    setGrid(newBoard);
+  };
+
   useEffect(() => {
-    const freshBoard = () => {
-      const newBoard = CreateBoard(10, 10, 20);
-      setNonMinecount(10 * 10 - 20);
-      setmineLocation(newBoard.mineLocation);
-      setGrid(newBoard.board);
-    };
     freshBoard();
   }, []);
 
   const revealcell = (x, y) => {
-    let newGrid = JSON.parse(JSON.stringify(grid));
+    let newGrid = [...grid];
     if (newGrid[x][y].value === "💣") {
-      alert("you clicked mine");
-      for (let i = 0; i < mineLocation.length; i++) {
-        newGrid[mineLocation[i][0]][mineLocation[i][1]].revealed = true;
+      setClickedMine(true);
+      for (let i = 0; i < newGrid.length; i++) {
+        for (let j = 0; j < newGrid[0].length; j++) {
+          newGrid[i][j].revealed = true;
+        }
       }
       setGrid(newGrid);
     } else {
@@ -40,7 +43,7 @@ function Board() {
 
   return (
     <div className="grid">
-      <span className="count">Non-Mines : {nonMinecount}</span>
+      <span className="count">Clicks to Win : {nonMinecount}</span>
       <div className="cells-container">
         {grid.map((singlerow, index1) => {
           return (
@@ -58,6 +61,14 @@ function Board() {
           );
         })}
       </div>
+      {clickedMine && (
+        <>
+          <span className="lost">Game Over !</span>
+          <button onClick={() => freshBoard()} className="play-again">
+            Play Again
+          </button>
+        </>
+      )}
     </div>
   );
 }

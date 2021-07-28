@@ -1,4 +1,4 @@
-export default function CreateBoard(row, col, bombs) {
+export default function createBoard(row, col, bombs) {
   // Board for storing the values for each cell
   let board = [];
   // Tracking the minelocation
@@ -83,7 +83,7 @@ export default function CreateBoard(row, col, bombs) {
       }
     }
   }
-  return { board, mineLocation };
+  return board;
 }
 
 // Random function used for generating random value of x & y
